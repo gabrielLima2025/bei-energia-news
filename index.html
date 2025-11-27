@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEI - Brasil Energia Inteligente | Portal de Notícias</title>
+    <meta name="description" content="Portal de notícias do setor energético com foco em hidrelétricas e energia solar - BEI">
+    <style>
+        :root {
+            --primary: #FF8C00;      /* Laranja principal */
+            --secondary: #FFD700;    /* Amarelo dourado */
+            --accent: #FFA500;       /* Amarelo alaranjado */
+            --light: #FFF9E6;        /* Amarelo muito claro */
+            --dark: #333333;         /* Preto suave */
+            --gray: #666666;         /* Cinza */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #fefefe;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            box-shadow: 0 2px 15px rgba(255, 140, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-bei {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(255, 140, 0, 0.3);
+        }
+        
+        .logo-text {
+            color: white;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .logo-text span {
+            font-weight: 300;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .date-display {
+            color: white;
+            font-size: 0.9rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        nav {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            position: relative;
+        }
+        
+        nav a {
+            display: block;
+            padding: 15px 25px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        /* News Section */
+        .section-title {
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .news-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #ffeccc;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(255, 140, 0, 0.2);
+        }
+        
+        .news-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .news-content {
+            padding: 20px;
+        }
+        
+        .news-category {
+            display: inline-block;
+            padding: 5px 12px;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .news-category.hydro {
+            background: linear-gradient(45deg, #4a90e2, #007bff);
+        }
+        
+        .news-category.solar {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+        }
+        
+        .news-title {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--dark);
+            line-height: 1.4;
+        }
+        
+        .news-excerpt {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--gray);
+            border-top: 1px solid #f0f0f0;
+            padding-top: 12px;
+        }
+        
+        /* Sidebar */
+        .sidebar-widget {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.1);
+            border: 1px solid #ffeccc;
+        }
+        
+        .widget-title {
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+        
+        .ons-updates {
+            list-style: none;
+        }
+        
+        .ons-updates li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .ons-updates li:last-child {
+            border-bottom: none;
+        }
+        
+        .update-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+        
+        .quick-links a {
+            display: block;
+            padding: 10px 0;
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-links a:last-child {
+            border-bottom: none;
+        }
+        
+        .quick-links a:hover {
+            color: var(--accent);
+            padding-left: 8px;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark), #222);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: var(--secondary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid #444;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        /* Badges e elementos visuais */
+        .alert-badge {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+        
+        .highlight {
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-top {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .date-display {
+                margin-top: 5px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <div class="logo-bei">BEI</div>
+                    <div class="logo-text">
+                        <h1>BRASIL ENERGIA<span>INTELIGENTE</span></h1>
+                    </div>
+                </div>
+                <div class="date-display" id="current-date">Carregando data...</div>
+            </div>
+        </div>
+        <nav>
+            <div class="container">
+                <ul>
+                    <li><a href="#" class="active">Início</a></li>
+                    <li><a href="#hydro">Hidrelétricas</a></li>
+                    <li><a href="#solar">Fotovoltaicas</a></li>
+                    <li><a href="#ons">ONS</a></li>
+                    <li><a href="#aneel">ANEEL</a></li>
+                    <li><a href="#reports">Relatórios</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="main-content">
+            <div class="content-primary">
+                <div class="section-title">
+                    <h2>Últimas Notícias</h2>
+                    <a href="#" style="color: var(--primary); font-size: 0.9rem; text-decoration: none;">Ver todas →</a>
+                </div>
+                
+                <div class="news-grid">
+                    <!-- Notícia 1 -->
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(45deg, #4a90e2, #007bff);"></div>
+                        <div class="news-content">
+                            <span class="news-category hydro">Hidrelétrica</span>
+                            <h3 class="news-title">ONS prevê aumento de 15% na geração hidrelétrica para o próximo trimestre</h3>
+                            <p class="news-excerpt">Operador Nacional do Sistema elétrico anunciou projeções otimistas baseadas nas condições climáticas favoráveis.</p>
+                            <div class="news-meta">
+                                <span>Fonte: ONS</span>
+                                <span>Há 2 horas</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notícia 2 -->
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(45deg, var(--accent), var(--primary));"></div>
+                        <div class="news-content">
+                            <span class="news-category solar">Fotovoltaica</span>
+                            <h3 class="news-title">Capacidade solar instalada no Brasil ultrapassa 30 GW, segundo ABSOLAR</h3>
+                            <p class="news-excerpt">Associação Brasileira de Energia Solar Fotovoltaica comemora marco histórico na matriz energética nacional.</p>
+                            <div class="news-meta">
+                                <span>Fonte: ABSOLAR</span>
+                                <span>Há 5 horas</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notícia 3 -->
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(45deg, #4a90e2, #003d7a);"></div>
+                        <div class="news-content">
+                            <span class="news-category hydro">Hidrelétrica</span>
+                            <h3 class="news-title">Usina de Belo Monte atinge recorde de produção no primeiro semestre</h3>
+                            <p class="news-excerpt">Com operação em plena capacidade, usina no Pará contribui significativamente para o SIN.</p>
+                            <div class="news-meta">
+                                <span>Fonte: ANEEL</span>
+                                <span>Há 1 dia</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notícia 4 -->
+                    <div class="news-card">
+                        <div class="news-image" style="background: linear-gradient(45deg, var(--accent), #e67300);"></div>
+                        <div class="news-content">
+                            <span class="news-category solar">Fotovoltaica</span>
+                            <h3 class="news-title">Novo leilão de energia A-5 inclui 2 GW de projetos solares</h3>
+                            <p class="news-excerpt">MME anuncia edital com foco em fontes renováveis para contratação de energia a partir de 2027.</p>
+                            <div class="news-meta">
+                                <span>Fonte: MME</span>
+                                <span>Há 2 dias</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-title">
+                    <h2>Atualizações do ONS <span class="alert-badge">LIVE</span></h2>
+                    <a href="#" style="color: var(--primary); font-size: 0.9rem; text-decoration: none;">Ver todas →</a>
+                </div>
+                
+                <div class="news-grid">
+                    <!-- Atualização ONS 1 -->
+                    <div class="news-card">
+                        <div class="news-content">
+                            <h3 class="news-title">Situação dos Reservatórios - Sudeste/Centro-Oeste</h3>
+                            <p class="news-excerpt">Nível atual: <span class="highlight">65,3%</span> - Variação: +0,7% em relação à semana anterior</p>
+                            <div class="news-meta">
+                                <span>Atualizado hoje às 08:30</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Atualização ONS 2 -->
+                    <div class="news-card">
+                        <div class="news-content">
+                            <h3 class="news-title">Previsão de Carga para Amanhã</h3>
+                            <p class="news-excerpt">Expectativa de pico de <span class="highlight">75.200 MW</span> no SIN - Condições climáticas estáveis</p>
+                            <div class="news-meta">
+                                <span>Atualizado hoje às 10:15</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Alertas e Avisos</h3>
+                    <ul class="ons-updates">
+                        <li>
+                            <strong>🔔 Manutenção Programada</strong>
+                            <p>Subestação Norte - 15/10 das 08h às 17h</p>
+                            <span class="update-time">Publicado: 12/10 às 14:20</span>
+                        </li>
+                        <li>
+                            <strong>💧 Condições Hidrológicas</strong>
+                            <p>Bacia do Paraná com vazão 12% acima da média histórica</p>
+                            <span class="update-time">Publicado: 11/10 às 09:45</span>
+                        </li>
+                        <li>
+                            <strong>⚡ Geração Distribuída</strong>
+                            <p>Novas regras para micro e minigeração entram em vigor</p>
+                            <span class="update-time">Publicado: 10/10 às 16:30</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Links Rápidos</h3>
+                    <div class="quick-links">
+                        <a href="http://www.ons.org.br" target="_blank">SIN - Sistema Interligado Nacional</a>
+                        <a href="http://www.aneel.gov.br" target="_blank">ANEEL - Agência Nacional de Energia Elétrica</a>
+                        <a href="http://www.mme.gov.br" target="_blank">MME - Ministério de Minas e Energia</a>
+                        <a href="http://www.absolar.org.br" target="_blank">ABSOLAR - Energia Solar</a>
+                    </div>
+                </div>
+                
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Indicadores do Dia</h3>
+                    <ul class="ons-updates">
+                        <li>
+                            <strong>💰 PLD - Preço de Liquidação</strong>
+                            <p>Sudeste: <span class="highlight">R$ 185,30/MWh</span></p>
+                        </li>
+                        <li>
+                            <strong>🌬️ Geração Eólica</strong>
+                            <p>8.450 MW (11,2% da matriz)</p>
+                        </li>
+                        <li>
+                            <strong>☀️ Geração Solar</strong>
+                            <p>4.210 MW (5,6% da matriz)</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>BEI</h3>
+                    <ul>
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="#">Nossa Equipe</a></li>
+                        <li><a href="#">Trabalhe Conosco</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Setor Energético</h3>
+                    <ul>
+                        <li><a href="#hydro">Hidrelétricas</a></li>
+                        <li><a href="#solar">Energia Solar</a></li>
+                        <li><a href="#">Energia Eólica</a></li>
+                        <li><a href="#">Biomassa</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Órgãos Reguladores</h3>
+                    <ul>
+                        <li><a href="http://www.ons.org.br" target="_blank">ONS - Operador Nacional do Sistema</a></li>
+                        <li><a href="http://www.aneel.gov.br" target="_blank">ANEEL - Agência Nacional de Energia Elétrica</a></li>
+                        <li><a href="http://www.mme.gov.br" target="_blank">MME - Ministério de Minas e Energia</a></li>
+                        <li><a href="http://www.ccee.org.br" target="_blank">CCEE - Câmara de Comercialização</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Recursos</h3>
+                    <ul>
+                        <li><a href="#">Relatórios Setoriais</a></li>
+                        <li><a href="#">Legislação</a></li>
+                        <li><a href="#">Glossário</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 BEI - BRASIL ENERGIA INTELIGENTE. Todos os direitos reservados.</p>
+                <p>Portal informativo para uso interno da empresa.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Atualizar data atual
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                timeZone: 'America/Sao_Paulo'
+            };
+            const formattedDate = now.toLocaleDateString('pt-BR', options);
+            document.getElementById('current-date').textContent = formattedDate;
+        }
+        
+        // Chamar a função quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCurrentDate();
+        });
+    </script>
+</body>
+</html>
